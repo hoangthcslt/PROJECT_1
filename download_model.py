@@ -1,20 +1,23 @@
-# file: download_model.py
+# file: download_CORRECT_model.py
 
 from underthesea import sentiment
 
-print("Bắt đầu quá trình tải mô hình phân tích cảm xúc của underthesea...")
-print("Quá trình này chỉ cần chạy một lần duy nhất.")
-print("Vui lòng đảm bảo bạn đang có kết nối Internet ổn định.")
+# Đây là tên của mô hình lớn, hiện đại hơn
+# SA_GENERAL_V131 chính là cái chúng ta thấy trong thư mục lúc đầu
+MODEL_NAME = "SA_GENERAL_V131" 
+
+print(f"Bắt đầu quá trình tải ĐÚNG mô hình: '{MODEL_NAME}'...")
+print("Quá trình này sẽ tải một file lớn (~420MB).")
+print("Vui lòng đảm bảo bạn đang có kết nối Internet ổn định và kiên nhẫn chờ đợi.")
 print("Bạn sẽ thấy thanh tiến trình download xuất hiện bên dưới...")
 
 try:
-    # Chúng ta chỉ cần gọi hàm sentiment một lần với một câu bất kỳ
-    # để kích hoạt quá trình tải về.
-    sentiment("câu này chỉ dùng để kiểm tra và tải mô hình")
+    # Gọi hàm sentiment và chỉ định rõ model cần dùng
+    sentiment("câu này chỉ dùng để tải mô hình lớn", model=MODEL_NAME)
     
     print("\n-------------------------------------------------------------")
-    print("THÀNH CÔNG! Mô hình đã được tải về và lưu vào cache.")
-    print("Bây giờ bạn có thể chạy file 'sentiment_analyzer.py' bình thường.")
+    print(f"THÀNH CÔNG! Mô hình '{MODEL_NAME}' đã được tải về.")
+    print("Bây giờ bạn có thể chạy file phân tích chính.")
     print("-------------------------------------------------------------")
 
 except Exception as e:

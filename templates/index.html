@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insightify - Phân tích Đánh giá Sản phẩm</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Link đến file CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="ph-bold ph-chart-pie-slice"></i>
+                <h1>Insightify</h1>
+            </div>
+            <button id="dark-mode-toggle" title="Chuyển đổi giao diện">
+                <i class="ph ph-sun"></i>
+                <i class="ph ph-moon"></i>
+            </button>
+        </header>
+
+        <main>
+            <section class="input-section card">
+                <h2>Bắt đầu Phân tích</h2>
+                <p>Dán link sản phẩm từ Tiki.vn và khám phá những insight giá trị.</p>
+                <div class="input-wrapper">
+                    <i class="ph ph-link"></i>
+                    <input type="text" id="product-url" placeholder="https://tiki.vn/ten-san-pham-p12345.html">
+                    <button id="analyze-btn">
+                        <i class="ph ph-magic-wand"></i>
+                        <span>Phân tích</span>
+                    </button>
+                </div>
+            </section>
+
+            <section id="result-section" class="hidden">
+                <!-- Skeleton Loader: Hiệu ứng chờ chuyên nghiệp -->
+                <div id="skeleton-loader">
+                    <div class="skeleton-card">
+                        <div class="skeleton-chart"></div>
+                        <div class="skeleton-text-group">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-card"></div>
+                </div>
+
+                <!-- Thông báo lỗi -->
+                <div id="error-message" class="card hidden"></div>
+                
+                <!-- Nội dung kết quả -->
+                <div id="result-content" class="hidden">
+                    <div class="results-grid">
+                        <div class="card summary-card">
+                            <h3><i class="ph ph-chart-pie"></i>Tổng quan Cảm xúc</h3>
+                            <div class="chart-container">
+                                <canvas id="sentiment-chart"></canvas>
+                            </div>
+                            <div id="stats-summary" class="stats-text"></div>
+                        </div>
+                        <div class="card wordcloud-card">
+                            <h3><i class="ph ph-cloud"></i>Từ khóa Nổi bật</h3>
+                            <div id="wordcloud-container"></div>
+                        </div>
+                    </div>
+                    <div class="card reviews-card">
+                        <h3><i class="ph ph-chats-circle"></i>Danh sách Bình luận</h3>
+                        <div id="reviews-list"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Thư viện Chart.js & Word Cloud -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <!-- Dòng mới, đáng tin cậy từ cdnjs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.0/wordcloud2.min.js" defer></script>
+    
+    <!-- Link đến file JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
+</html>
