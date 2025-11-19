@@ -9,13 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessage = document.getElementById('error-message');
     const resultContent = document.getElementById('result-content');
     const statsSummary = document.getElementById('stats-summary');
+    const wordCloudContainer = document.getElementById('wordcloud-container');
     const reviewsList = document.getElementById('reviews-list');
     const chartCanvas = document.getElementById('sentiment-chart');
-    const wordCloudContainer = document.getElementById('wordcloud-container');
+    const wordCloudPositiveContainer = document.getElementById('wordcloud-positive-container');
+    const wordCloudNegativeContainer = document.getElementById('wordcloud-negative-container');
     const darkModeToggle = document.getElementById('dark-mode-toggle');
+    const showAllBtn = document.getElementById('show-all-btn');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const strategyButtons = document.querySelectorAll('.strategy-btn');
 
-    let sentimentChart = null; // Biến để lưu trữ đối tượng biểu đồ
-
+    let sentimentChart = null; // Biến lưu trữ biểu đồ
+    let allReviewsData = []; // Biến LƯU TRỮ TOÀN BỘ bình luận
+    // Biến để lưu chiến lược đang được chọn
+    let currentStrategy = 'latest';
+    // === Thêm logic xử lý chọn chiến lược ===
+    strategyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Xóa class 'active' khỏi tất cả các nút
+            strategyButtons.forEach(btn => btn.classList.remove('active'));
+            // Thêm class 'active' cho nút vừa được click
+            button.classList.add('active');
+            // Cập nhật biến chiến lược
+            currentStrategy = button.dataset.strategy;
+        });
+    });
     // === Hàm tiện ích ===
     const showElement = (el) => el.classList.remove('hidden');
     const hideElement = (el) => el.classList.add('hidden');
@@ -39,12 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
             enableDarkMode();
         }
     });
-
     // Kiểm tra theme đã lưu khi tải trang
     if (localStorage.getItem('theme') === 'dark') {
         enableDarkMode();
     }
-    
+
     // === Logic xử lý chính ===
     analyzeBtn.addEventListener('click', async () => {
         const url = urlInput.value.trim();
@@ -60,24 +77,30 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement(resultContent);
         removeClass(resultContent, 'fade-in');
         analyzeBtn.disabled = true;
-
         try {
-            // 2. Gửi yêu cầu đến API
+            // Gửi yêu cầu đến API
             const response = await fetch('/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url }),
+                body: JSON.stringify({
+                    url: url,
+                    strategy: currentStrategy
+                }),
             });
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.error || 'Có lỗi xảy ra, vui lòng thử lại.');
+                throw new Error(result.error || 'Có lỗi xảy ra.');
             }
-            
-            // 3. Hiển thị kết quả
-            setTimeout(() => { // Thêm độ trễ nhỏ để người dùng thấy hiệu ứng
+
+            // LƯU TRỮ dữ liệu gốc
+            allReviewsData = result.reviews || [];
+
+            //Hiển thị kết quả
+            //Thêm độ trễ để thấy hiệu ứng
+            setTimeout(() => {
                 hideElement(skeletonLoader);
-                displayResults(result);
+                displayResults(result); // Gọi hàm hiển thị chính
                 showElement(resultContent);
                 addClass(resultContent, 'fade-in');
             }, 500);
@@ -91,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
     // === Các hàm hiển thị ===
     function displayResults(data) {
         // Stats
@@ -100,18 +124,22 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><i class="ph ph-smiley-meh" style="color:var(--yellow-color)"></i><strong>Bình thường:</strong> ${data.stats.neutral}%</p>
             <p><i class="ph ph-smiley-sad" style="color:var(--red-color)"></i><strong>Không hài lòng:</strong> ${data.stats.negative}%</p>
         `;
-        // Chart
+        //Chart
         drawChart(data.stats);
-        // Reviews
-        displayReviews(data.reviews);
-        // Word Cloud
-        drawWordCloud(data.reviews);
+
+        //***** */
+        displayReviews(allReviewsData); // Luôn hiển thị TẤT CẢ lúc đầu
+        drawWordClouds(allReviewsData); // Vẽ word cloud từ dữ liệu gốc
+        //***** */  
+
     }
 
+    // NÂNG CẤP: Hàm displayReviews giờ có thể nhận một danh sách bất kỳ
     function displayReviews(reviews) {
         reviewsList.innerHTML = '';
         if (reviews && reviews.length > 0) {
             reviews.forEach(review => {
+                //Tạo element review
                 let sentimentClass = '';
                 if (review.sentiment === 'tích cực') sentimentClass = 'sentiment-positive';
                 else if (review.sentiment === 'trung tính') sentimentClass = 'sentiment-neutral';
@@ -129,65 +157,107 @@ document.addEventListener('DOMContentLoaded', () => {
                 reviewsList.appendChild(reviewElement);
             });
         } else {
-            reviewsList.innerHTML = '<p>Không có bình luận nào để hiển thị.</p>';
+            reviewsList.innerHTML = '<p style="text-align:center; color: var(--text-color-light);">Không có bình luận nào phù hợp.</p>';
         }
     }
 
+    // NÂNG CẤP: Logic cho Biểu đồ tương tác
     function drawChart(stats) {
         if (sentimentChart) sentimentChart.destroy();
+        const chartData = {
+            labels: ['Hài lòng', 'Bình thường', 'Không hài lòng'],
+            datasets: [{
+                data: [stats.positive, stats.neutral, stats.negative],
+                backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+                borderWidth: 0,
+            }]
+        };
+
         sentimentChart = new Chart(chartCanvas, {
             type: 'doughnut',
-            data: {
-                labels: ['Hài lòng', 'Bình thường', 'Không hài lòng'],
-                datasets: [{
-                    data: [stats.positive, stats.neutral, stats.negative],
-                    backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
-                    borderWidth: 0,
-                }]
-            },
+            data: chartData,
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 cutout: '70%',
-                plugins: { legend: { display: false } }
+                plugins: { legend: { display: false } },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const clickedIndex = elements[0].index;
+                        const sentimentMap = ['tích cực', 'trung tính', 'tiêu cực'];
+                        const targetSentiment = sentimentMap[clickedIndex];
+
+                        // Lọc và hiển thị lại danh sách bình luận
+                        const filteredReviews = allReviewsData.filter(r => r.sentiment === targetSentiment);
+                        displayReviews(filteredReviews);
+                        showElement(showAllBtn); // Hiện nút "Hiển thị tất cả"
+                    }
+                }
             }
         });
     }
 
-// Thay thế hàm này trong file static/js/script.js
+    // NÚT HIỂN THỊ TẤT CẢ
+    showAllBtn.addEventListener('click', () => {
+        displayReviews(allReviewsData);
+        hideElement(showAllBtn);
+    });
 
-function drawWordCloud(reviews) {
-    // === BƯỚC KIỂM TRA AN TOÀN ===
-    if (typeof WordCloud !== 'function') {
-        console.error("Thư viện WordCloud2.js chưa được tải thành công.");
-        wordCloudContainer.innerHTML = '<p style="text-align:center; color: var(--red-color);">Không thể tải thư viện Word Cloud.</p>';
-        return; // Dừng hàm lại
-    }
-    // =============================
+    // NÂNG CẤP: Logic cho Word Cloud thông minh hơn
+    function drawWordClouds(reviews) {
+        const positiveReviews = reviews.filter(r => r.sentiment === 'tích cực');
+        const negativeReviews = reviews.filter(r => r.sentiment === 'tiêu cực');
 
-    const stopWords = ['và', 'là', 'của', 'có', 'mình', 'sản', 'phẩm', 'này', 'rất', 'cũng', 'nhưng', 'được', 'cho', 'không', 'đã', 'thì', 'quá', 'với', 'hàng', 'giao', 'shop'];
-    const text = reviews.map(r => r.comment || '').join(' ').toLowerCase();
-    const words = text.split(/\s+/).filter(word => word.length > 2 && !stopWords.includes(word));
-    
-    const wordFrequencies = words.reduce((map, word) => {
-        map[word] = (map[word] || 0) + 1;
-        return map;
-    }, {});
+        // Stop words tốt hơn, không loại bỏ các từ quan trọng
+        const stopWords = ['bị', 'bởi', 'cả', 'các', 'cái', 'cần', 'càng', 'chỉ', 'chiếc', 'cho', 'chứ', 'chưa', 'chuyện', 'có', 'có_thể', 'cứ', 'của', 'cùng', 'cũng', 'đã', 'đang', 'đây', 'để', 'đến', 'đều', 'điều', 'do', 'đó', 'được', 'gì', 'khi', 'không', 'là', 'lại', 'lên', 'lúc', 'mà', 'mỗi', 'một', 'nên', 'nếu', 'ngay', 'nhiều', 'như', 'nhưng', 'những', 'nơi', 'nữa', 'phải', 'qua', 'ra', 'rằng', 'rất', 'rồi', 'sau', 'sẽ', 'so', 'sự', 'tại', 'theo', 'thì', 'trên', 'trước', 'từ', 'từng', 'và', 'vẫn', 'vào', 'vậy', 'vì', 'việc', 'với'];
 
-    const list = Object.entries(wordFrequencies).sort((a, b) => b[1] - a[1]).slice(0, 50);
+        const generateWordList = (reviewList) => {
+            const text = reviewList.map(r => r.comment || '').join(' ').toLowerCase();
+            const words = text.split(/[ \n\r\t.,!?"();:]+/).filter(word => {
+                return word.length > 2 && !stopWords.includes(word) && isNaN(word);
+            });
+            const frequencies = words.reduce((map, word) => {
+                map[word] = (map[word] || 0) + 1; return map;
+            }, {});
+            return Object.entries(frequencies).sort((a, b) => b[1] - a[1]).slice(0, 50);
+        };
 
-    if (list.length > 5) { // Cần ít nhất vài từ để vẽ
-        WordCloud(wordCloudContainer, { 
-            list: list,
+        const positiveList = generateWordList(positiveReviews);
+        const negativeList = generateWordList(negativeReviews);
+
+        const cloudOptions = {
             fontFamily: 'Inter, sans-serif',
-            color: (word, weight) => (weight > 10 ? '#3B82F6' : (weight > 5 ? '#6B7280' : '#9CA3AF')),
             backgroundColor: 'transparent',
             shuffle: false,
             rotateRatio: 0,
-            weightFactor: 4, // Làm cho các từ to hơn một chút
-        });
-    } else {
-        wordCloudContainer.innerHTML = '<p style="text-align:center; color: var(--text-color-light);">Không đủ từ để tạo đám mây.</p>';
+            minSize: 10
+        };
+
+        if (positiveList.length > 5) {
+            WordCloud(wordCloudPositiveContainer, { ...cloudOptions, list: positiveList, color: '#10B981' });
+        } else {
+            wordCloudPositiveContainer.innerHTML = '<p style="text-align:center; color: var(--text-color-light);">Không đủ dữ liệu.</p>';
+        }
+        if (negativeList.length > 5) {
+            WordCloud(wordCloudNegativeContainer, { ...cloudOptions, list: negativeList, color: '#EF4444' });
+        } else {
+            wordCloudNegativeContainer.innerHTML = '<p style="text-align:center; color: var(--text-color-light);">Không đủ dữ liệu.</p>';
+        }
     }
-}
+
+    // LOGIC CHO TABS CỦA WORD CLOUD
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            if (button.dataset.type === 'positive') {
+                showElement(wordCloudPositiveContainer);
+                hideElement(wordCloudNegativeContainer);
+            } else {
+                hideElement(wordCloudPositiveContainer);
+                showElement(wordCloudNegativeContainer);
+            }
+        });
+    });
 });

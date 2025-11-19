@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Insightify - Phân tích Đánh giá Sản phẩm</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
+
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+
     <!-- Link đến file CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -28,19 +30,75 @@
                 <i class="ph ph-moon"></i>
             </button>
         </header>
+        <!-- ... (phần head và header giữ nguyên) ... -->
 
+        <div id="result-content" class="hidden">
+            <div class="results-grid">
+                <div class="card summary-card">
+                    <h3><i class="ph ph-chart-pie"></i>Tổng quan Cảm xúc</h3>
+                    <div class="chart-container">
+                        <canvas id="sentiment-chart"></canvas>
+                    </div>
+                    <div id="stats-summary" class="stats-text"></div>
+                </div>
+                <div class="card wordcloud-card">
+                    <h3><i class="ph ph-cloud"></i>Từ khóa Nổi bật</h3>
+                    <!-- Tabs cho Word Cloud -->
+                    <div class="tabs">
+                        <button class="tab-button active" data-type="positive">Điểm cộng</button>
+                        <button class="tab-button" data-type="negative">Điểm trừ</button>
+                    </div>
+                    <div id="wordcloud-positive-container"></div>
+                    <div id="wordcloud-negative-container" class="hidden"></div>
+                </div>
+            </div>
+            <div class="card reviews-card">
+                <div class="reviews-header">
+                    <h3><i class="ph ph-chats-circle"></i>Danh sách Bình luận</h3>
+                    <!-- Nút hiển thị tất cả -->
+                    <button id="show-all-btn" class="hidden">Hiển thị tất cả</button>
+                </div>
+                <div id="reviews-list"></div>
+            </div>
+        </div>
         <main>
             <section class="input-section card">
                 <h2>Bắt đầu Phân tích</h2>
                 <p>Dán link sản phẩm từ Tiki.vn và khám phá những insight giá trị.</p>
-                <div class="input-wrapper">
-                    <i class="ph ph-link"></i>
-                    <input type="text" id="product-url" placeholder="https://tiki.vn/ten-san-pham-p12345.html">
-                    <button id="analyze-btn">
-                        <i class="ph ph-magic-wand"></i>
-                        <span>Phân tích</span>
-                    </button>
-                </div>
+                <div class="strategy-selector">
+                    <div class="strategy-header"> 
+                        <p>Chọn phương pháp phân tích:</p>
+                        <!-- === TOOLTIP MỚI === -->
+                        <div class="tooltip-container">
+                            <i class="ph ph-question"></i>
+                            <div class="tooltip-content">
+                                <p><strong>Phân tích Mới nhất:</strong><br>
+                                    Lấy tối đa 300 bình luận gần đây nhất. Phù hợp để đánh giá chất lượng sản phẩm ở
+                                    thời điểm hiện tại.</p>
+                                <hr>
+                                <p><strong>Phân tích Tổng quan:</strong><br>
+                                    Lấy mẫu cân bằng từ tất cả các loại đánh giá (1-5 sao). Phù hợp để có cái nhìn toàn
+                                    diện về ưu/nhược điểm của sản phẩm.</p>
+                            </div>
+                        </div>
+                    </div>
+                        <div>
+                            <button class="strategy-btn active" data-strategy="latest">
+                                <i class="ph ph-trend-up"></i> Mới nhất
+                            </button>
+                            <button class="strategy-btn" data-strategy="overview">
+                                <i class="ph ph-aperture"></i> Tổng quan
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="ph ph-link"></i>
+                        <input type="text" id="product-url" placeholder="https://tiki.vn/ten-san-pham-p12345.html">
+                        <button id="analyze-btn">
+                            <i class="ph ph-magic-wand"></i>
+                            <span>Phân tích</span>
+                        </button>
+                    </div>
             </section>
 
             <section id="result-section" class="hidden">
@@ -59,7 +117,7 @@
 
                 <!-- Thông báo lỗi -->
                 <div id="error-message" class="card hidden"></div>
-                
+
                 <!-- Nội dung kết quả -->
                 <div id="result-content" class="hidden">
                     <div class="results-grid">
@@ -88,8 +146,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <!-- Dòng mới, đáng tin cậy từ cdnjs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.0/wordcloud2.min.js" defer></script>
-    
+
     <!-- Link đến file JavaScript -->
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </body>
+
 </html>

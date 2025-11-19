@@ -159,3 +159,161 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     .results-grid { grid-template-columns: 1fr; }
     .input-wrapper { flex-direction: column; }
 }
+/* Thêm vào cuối file style.css */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+.tab-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-weight: 500;
+    font-size: 1rem;
+    border-bottom: 2px solid transparent;
+}
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.reviews-header h3 { margin: 0; }
+#show-all-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: 0.875rem;
+}
+#show-all-btn:hover { background-color: var(--surface-color); }
+.strategy-selector {
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+.strategy-selector p {
+    margin: 0 0 0.5rem 0;
+    font-weight: 500;
+    color: var(--text-color-light);
+}
+.strategy-selector div {
+    display: flex;
+    gap: 0.5rem;
+}
+.strategy-btn {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+.strategy-btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+.strategy-btn:not(.active):hover {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+/* Định dạng cho tiêu đề và tooltip */
+.strategy-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.strategy-header p {
+    margin: 0;
+}
+
+/* Container chính của tooltip */
+.tooltip-container {
+    position: relative; /* Rất quan trọng, để định vị tooltip con */
+    display: inline-flex;
+}
+
+/* Icon dấu chấm hỏi */
+.tooltip-container .ph-question {
+    color: var(--text-color-light);
+    cursor: help; /* Đổi con trỏ chuột để người dùng biết có thể tương tác */
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    padding: 2px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Nội dung giải thích (Mặc định ẩn đi) */
+.tooltip-content {
+    position: absolute;
+    bottom: 125%; /* Hiện lên phía trên icon */
+    left: 50%;
+    transform: translateX(-50%); /* Căn giữa so với icon */
+    
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    width: 300px; /* Độ rộng của tooltip */
+    z-index: 10; /* Đảm bảo nó nổi lên trên các phần tử khác */
+    
+    /* Hiệu ứng */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+.tooltip-content p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-color-light);
+}
+.tooltip-content p strong {
+    color: var(--text-color);
+}
+.tooltip-content hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 0.75rem 0;
+}
+
+/* Mũi tên nhỏ chỉ xuống */
+.tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--surface-color) transparent transparent transparent;
+}
+/* Khi di chuột vào container, hiện nội dung tooltip lên */
+.tooltip-container:hover .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
