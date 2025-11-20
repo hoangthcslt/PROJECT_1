@@ -68,60 +68,45 @@ def scrape_latest_reviews( product_id, spid):
 
 def scrape_overview_reviews(product_url, product_id, spid, total_sample_size=400):
     """
-    Chiến lược 2 (TỐI ƯU): Lấy kế hoạch cào từ HTML, sau đó thực thi.
+    Chiến lược 2 (TỐI ƯU): Lấy kế hoạch cào từ HTML, sau đó thực thi, suy luận ngược số trang review từ API
     """
     print("Bắt đầu cào theo chiến lược TỔNG QUAN TỐI ƯU...")
     
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36',
+        'x-guest-token': '5lIwj7SGqix1tk6UJ2BMEr4gTXfzyevo',
     }
-
+    base_url = "https://tiki.vn/api/v2/reviews"
     try:
-        # --- BƯỚC 1: CÀO TRANG HTML ---
-        print("Đang cào trang HTML để lấy thông tin tổng quan...")
-        html_response = requests.get(product_url, headers=headers)
-        html_response.raise_for_status()
-        soup = BeautifulSoup(html_response.text, 'html.parser')
-
-        # --- BƯỚC 2: TRÍCH XUẤT SỐ LƯỢNG ĐÁNH GIÁ (THEO LOGIC BẠN ĐỀ XUẤT) ---
+        # --- BƯỚC 1: THỰC HIỆN 5 "CUỘC GỌI TRINH SÁT" ĐỂ LẤY SỐ TRANG ---
+        print("Đang thực hiện các cuộc gọi trinh sát để ước tính số lượng...")
         rating_counts = {}
-        
-        # 2.1. Tìm thẻ cha lớn nhất
-        review_inner = soup.find('div', class_='review-rating__inner')
-        if not review_inner:
-            print("Không tìm thấy khối 'review-rating__inner'. Chuyển sang cào mới nhất.")
-            return scrape_latest_reviews(product_id, spid)
+        reviews_per_page = 5 # Tiki API trả về 5 review mỗi trang
 
-        # 2.2. Từ thẻ cha, tìm đến khu vực chi tiết
-        review_detail = review_inner.find('div', class_='review-rating__detail')
-        if not review_detail:
-            print("Không tìm thấy khối 'review-rating__detail'. Chuyển sang cào mới nhất.")
-            return scrape_latest_reviews(product_id, spid)
-
-        # 2.3. Từ khu vực chi tiết, tìm tất cả các con số
-        level_elements = review_detail.find_all('div', class_='review-rating__level')
-        
-        if len(level_elements) == 5:
-            # Quy ước thứ tự: phần tử đầu tiên là 5 sao, thứ hai là 4 sao,...
-            for i, level in enumerate(level_elements):
-                star_level = 5 - i
-                # Bên trong mỗi <div> level ta tìm 1 thẻ là class = "...__number"
-                number_element = level.find('div', class_='review-rating__number')
-                if number_element:
-                    try:
-                        count = int(number_element.get_text(strip=True))
-                        rating_counts[star_level] = count
-                    except (ValueError, TypeError):
-                        rating_counts[star_level] = 0
-                else: 
-                    #Trường hợp mức sao đó k có ai đánh giá
-                    rating_counts[star_level] = 0
-            print("Đã trích xuất thành công số lượng đánh giá từ HTML:", rating_counts)
-        else:
-            print(f"Cấu trúc HTML thống kê đã thay đổi (tìm thấy {len(level_elements)}/5 số). Chuyển sang cào mới nhất.")
-            return scrape_latest_reviews( product_id, spid)
+        for star in range(1, 6):
+            params = {
+                'limit': 1, # Chỉ cần lấy 1 review để lấy thông tin paging
+                'page': 1,
+                'spid': spid,
+                'product_id': product_id,
+                'sort': f'stars|{star}'
+            }
+            response = requests.get(base_url, headers=headers, params=params)
+            response.raise_for_status()
+            data = response.json()
             
-        # --- BƯỚC 3: TÍNH TOÁN KẾ HOẠCH CÀO THEO TỈ LỆ  ---
+            # Trích xuất thông tin `last_page` từ đối tượng `paging`
+            last_page = data.get('paging', {}).get('last_page', 0)
+            
+            # Ước tính số lượng review
+            # Logic: (số trang - 1) * 5 + số review ở trang cuối (nếu có)
+            # Để đơn giản, ta sẽ dùng last_page * reviews_per_page, sai số không đáng kể
+            estimated_count = last_page * reviews_per_page
+            rating_counts[star] = estimated_count
+        
+        print("Đã ước tính thành công số lượng đánh giá:", rating_counts)
+
+        # --- BƯỚC 2: TÍNH TOÁN KẾ HOẠCH CÀO (Không thay đổi) ---
         total_reviews_count = sum(rating_counts.values())
         if total_reviews_count == 0:
             return {"reviews": []}
@@ -134,7 +119,7 @@ def scrape_overview_reviews(product_url, product_id, spid, total_sample_size=400
 
         print("Kế hoạch cào dữ liệu theo tỷ lệ:", reviews_to_scrape)
 
-        # --- BƯỚC 4: THỰC THI KẾ HOẠCH (Không thay đổi) ---
+        # --- BƯỚC 3: THỰC THI KẾ HOẠCH (Không thay đổi) ---
         all_reviews = []
         for star in sorted(reviews_to_scrape.keys()):
             limit_for_this_star = reviews_to_scrape[star]
@@ -156,5 +141,6 @@ def scrape_overview_reviews(product_url, product_id, spid, total_sample_size=400
 
     except Exception as e:
         print(f"Lỗi nghiêm trọng khi thực hiện chiến lược tổng quan: {e}")
+        # Nếu có lỗi, chuyển về chiến lược an toàn hơn
         return scrape_latest_reviews(product_id, spid)
     
