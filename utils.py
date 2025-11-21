@@ -1,4 +1,3 @@
-# file: utils.py
 import re
 from urllib.parse import urlparse, parse_qs
 
@@ -18,7 +17,7 @@ def extract_tiki_ids_from_url(url):
         # Sử dụng thư viện urllib để phân tích các tham số query và tìm spid
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
-        spid = query_params.get('spid', [product_id])[0] # Nếu không có spid, mặc định dùng product_id
+        spid = query_params.get('spid', [product_id])[0]
 
         return product_id, spid
     except Exception as e:

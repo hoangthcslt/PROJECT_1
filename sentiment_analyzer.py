@@ -1,4 +1,3 @@
-# file: sentiment_analyzer.py
 
 def phan_tich_cam_xuc_dua_tren_sao(so_sao):
     """
@@ -16,7 +15,7 @@ def phan_tich_cam_xuc_dua_tren_sao(so_sao):
             return 'tích cực'
         elif rating == 3:
             return 'trung tính'
-        else: # rating <= 2
+        else: 
             return 'tiêu cực'
             
     except (ValueError, TypeError):
@@ -24,11 +23,11 @@ def phan_tich_cam_xuc_dua_tren_sao(so_sao):
         # thì coi nó là trung tính
         return 'trung tính'
 
-# --- Phần test để bạn kiểm tra nhanh ---
+# --- Test thử ---
 if __name__ == '__main__':
     print(f"5 sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao(5)}")
     print(f"4 sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao(4)}")
-    print(f"3 sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao('3')}") # Thử với chuỗi
+    print(f"3 sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao('3')}")
     print(f"2 sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao(2)}")
     print(f"1 sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao(1)}")
     print(f"Không có sao -> Cảm xúc: {phan_tich_cam_xuc_dua_tren_sao(None)}")

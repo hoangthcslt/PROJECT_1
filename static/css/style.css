@@ -159,7 +159,6 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     .results-grid { grid-template-columns: 1fr; }
     .input-wrapper { flex-direction: column; }
 }
-/* Thêm vào cuối file style.css */
 .tabs {
     display: flex;
     border-bottom: 1px solid var(--border-color);
@@ -237,7 +236,7 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     border-color: var(--primary-color);
     color: var(--primary-color);
 }
-/* Định dạng cho tiêu đề và tooltip */
+/* tooltip */
 .strategy-header {
     display: flex;
     align-items: center;
@@ -250,11 +249,10 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
 
 /* Container chính của tooltip */
 .tooltip-container {
-    position: relative; /* Rất quan trọng, để định vị tooltip con */
+    position: relative; 
     display: inline-flex;
 }
 
-/* Icon dấu chấm hỏi */
 .tooltip-container .ph-question {
     color: var(--text-color-light);
     cursor: help; /* Đổi con trỏ chuột để người dùng biết có thể tương tác */
@@ -264,13 +262,11 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     width: 16px;
     height: 16px;
 }
-
-/* Nội dung giải thích (Mặc định ẩn đi) */
 .tooltip-content {
     position: absolute;
-    bottom: 125%; /* Hiện lên phía trên icon */
+    bottom: 125%;
     left: 50%;
-    transform: translateX(-50%); /* Căn giữa so với icon */
+    transform: translateX(-50%); 
     
     background-color: var(--surface-color);
     color: var(--text-color);
@@ -281,7 +277,6 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     width: 300px; /* Độ rộng của tooltip */
     z-index: 10; /* Đảm bảo nó nổi lên trên các phần tử khác */
     
-    /* Hiệu ứng */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s, visibility 0.2s;
@@ -299,7 +294,7 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     border: none;
     border-top: 1px solid var(--border-color);
     margin: 0.75rem 0;
-}
+}       
 
 /* Mũi tên nhỏ chỉ xuống */
 .tooltip-content::after {

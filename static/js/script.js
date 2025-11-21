@@ -1,5 +1,6 @@
-// static/js/script.js
-
+/*
+ĐÂY LÀ FILE QUẢN LÝ LOGIC
+*/
 document.addEventListener('DOMContentLoaded', () => {
     // === Lấy các element từ HTML ===
     const urlInput = document.getElementById('product-url');
@@ -21,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let sentimentChart = null; // Biến lưu trữ biểu đồ
     let allReviewsData = []; // Biến LƯU TRỮ TOÀN BỘ bình luận
-    // Biến để lưu chiến lược đang được chọn
+    // Biến để lưu phương án phân tích 
     let currentStrategy = 'latest';
-    // === Thêm logic xử lý chọn chiến lược ===
+    // === logic xử lý khi chọn cách phân tích ===
     strategyButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Xóa class 'active' khỏi tất cả các nút
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addClass = (el, className) => el.classList.add(className);
     const removeClass = (el, className) => el.classList.remove(className);
 
-    // === Logic cho Dark Mode ===
+    // === Logic cho Dark Mode ( chế độ tối ) ===
     const enableDarkMode = () => {
         document.body.classList.add('dark-mode');
         localStorage.setItem('theme', 'dark');
@@ -70,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 1. Chuẩn bị giao diện
+        // Chuẩn bị giao diện
         showElement(resultSection);
         showElement(skeletonLoader);
         hideElement(errorMessage);
@@ -97,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allReviewsData = result.reviews || [];
 
             //Hiển thị kết quả
-            //Thêm độ trễ để thấy hiệu ứng
+            //Thêm độ trễ
             setTimeout(() => {
                 hideElement(skeletonLoader);
                 displayResults(result); // Gọi hàm hiển thị chính
@@ -115,9 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // === Các hàm hiển thị ===
+    // === Các hàm hiển thị trên giao diện ===
     function displayResults(data) {
-        // Stats
+        // TỔNG QUAN CÁC ĐÁNH GIÁ
         statsSummary.innerHTML = `
             <p><strong>Tổng số đánh giá:</strong> ${data.stats.total_reviews}</p>
             <p><i class="ph ph-smiley" style="color:var(--green-color)"></i><strong>Hài lòng:</strong> ${data.stats.positive}%</p>
@@ -126,16 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         //Chart
         drawChart(data.stats);
-
-        //***** */
         displayReviews(allReviewsData); // Luôn hiển thị TẤT CẢ lúc đầu
         drawWordClouds(allReviewsData); // Vẽ word cloud từ dữ liệu gốc
-        //***** */  
 
     }
 
-    // NÂNG CẤP: Hàm displayReviews giờ có thể nhận một danh sách bất kỳ
-    function displayReviews(reviews) {
+    function displayReviews(reviews) { //Hiển thị các đánh giá bên dưới 1 cách trực quan hơn 
         reviewsList.innerHTML = '';
         if (reviews && reviews.length > 0) {
             reviews.forEach(review => {
@@ -161,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // NÂNG CẤP: Logic cho Biểu đồ tương tác
+    // Logic cho Biểu đồ hiển thị tỉ lệ đánh giá để user có thể tương tác
     function drawChart(stats) {
         if (sentimentChart) sentimentChart.destroy();
         const chartData = {
@@ -190,25 +187,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Lọc và hiển thị lại danh sách bình luận
                         const filteredReviews = allReviewsData.filter(r => r.sentiment === targetSentiment);
                         displayReviews(filteredReviews);
-                        showElement(showAllBtn); // Hiện nút "Hiển thị tất cả"
+                        showElement(showAllBtn); // Hiện "Hiển thị tất cả"
                     }
                 }
             }
         });
     }
 
-    // NÚT HIỂN THỊ TẤT CẢ
     showAllBtn.addEventListener('click', () => {
         displayReviews(allReviewsData);
         hideElement(showAllBtn);
     });
 
-    // NÂNG CẤP: Logic cho Word Cloud thông minh hơn
+    // Logic cho Word Cloud nhưng hiện tại chưa hiệu quả
     function drawWordClouds(reviews) {
         const positiveReviews = reviews.filter(r => r.sentiment === 'tích cực');
         const negativeReviews = reviews.filter(r => r.sentiment === 'tiêu cực');
 
-        // Stop words tốt hơn, không loại bỏ các từ quan trọng
+        // Stop words để không loại bỏ các từ quan trọng
         const stopWords = ['bị', 'bởi', 'cả', 'các', 'cái', 'cần', 'càng', 'chỉ', 'chiếc', 'cho', 'chứ', 'chưa', 'chuyện', 'có', 'có_thể', 'cứ', 'của', 'cùng', 'cũng', 'đã', 'đang', 'đây', 'để', 'đến', 'đều', 'điều', 'do', 'đó', 'được', 'gì', 'khi', 'không', 'là', 'lại', 'lên', 'lúc', 'mà', 'mỗi', 'một', 'nên', 'nếu', 'ngay', 'nhiều', 'như', 'nhưng', 'những', 'nơi', 'nữa', 'phải', 'qua', 'ra', 'rằng', 'rất', 'rồi', 'sau', 'sẽ', 'so', 'sự', 'tại', 'theo', 'thì', 'trên', 'trước', 'từ', 'từng', 'và', 'vẫn', 'vào', 'vậy', 'vì', 'việc', 'với'];
 
         const generateWordList = (reviewList) => {
@@ -245,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // LOGIC CHO TABS CỦA WORD CLOUD
+    // LOGIC CHO TABS WORD CLOUD
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
             tabButtons.forEach(btn => btn.classList.remove('active'));

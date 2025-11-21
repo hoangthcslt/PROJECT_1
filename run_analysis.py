@@ -1,10 +1,8 @@
-# file: run_analysis.py
-
 import csv
-# Thay đổi import: gọi hàm mới từ sentiment_analyzer
+# Gọi hàm phân tích cảm xúc từ sentiment_analyzer
 from sentiment_analyzer import phan_tich_cam_xuc_dua_tren_sao 
 
-# --- Cấu hình file (giữ nguyên) ---
+# --- Cấu hình file ---
 INPUT_CSV_FILE = 'tiki_reviews_274058672.csv' 
 OUTPUT_CSV_FILE = 'tiki_reviews_analyzed_simple.csv' # Đổi tên file output cho rõ
 
