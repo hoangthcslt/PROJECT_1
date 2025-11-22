@@ -40,7 +40,9 @@ def _scrape_reviews_by_option( product_id, spid, sort_option, review_limit):
                 reviews_collected.append({
                     'username': review.get('created_by', {}).get('name', 'N/A'),
                     'stars': review.get('rating'),
-                    'comment': review.get('content', '').replace('\n', ' ')
+                    'comment': review.get('content', '').replace('\n', ' '),
+                    'created_at': review.get('created_at'),
+                    'id': review.get('id')
                 })
             
             time.sleep(0.5) # Tạm dừng 0.5s để tránh bị chặn api

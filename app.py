@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 
 # Import các hàm cần dùng
-from utils import extract_tiki_ids_from_url
+from utils import extract_tiki_ids_from_url, analyze_review_trends, calculate_radar_score
 from tiki_crawler import scrape_latest_reviews, scrape_overview_reviews
 from sentiment_analyzer import phan_tich_cam_xuc_dua_tren_sao
 
@@ -28,7 +28,7 @@ def analyze_product():
     if not product_id:
         return jsonify({"error": "URL không hợp lệ hoặc không phải link sản phẩm Tiki."}), 400
 
-    reviews = []
+    reviews = {}
     # Dựa vào strategy để gọi hàm crawler tương ứng
     if strategy == 'overview':
         reviews = scrape_overview_reviews(url,product_id, spid)
@@ -57,14 +57,17 @@ def analyze_product():
             neutral_count += 1
         else:
             negative_count += 1
+    # HÀM PHÂN TÍCH XU HƯỚNG   
+    trend_data = analyze_review_trends(actual_reviews)
 
     result = {
         "status": "success",
+        "trend_data": trend_data,
         "stats": {
             "total_reviews": total_reviews,
-            "positive": round((positive_count / total_reviews) * 100, 2),
-            "neutral": round((neutral_count / total_reviews) * 100, 2),
-            "negative": round((negative_count / total_reviews) * 100, 2),
+            "positive": round((positive_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
+            "neutral": round((neutral_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
+            "negative": round((negative_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
         },
         "reviews": analyzed_reviews
     }
