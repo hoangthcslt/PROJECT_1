@@ -142,7 +142,7 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
 #error-message { color: var(--red-color); text-align: center; }
 
 .results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.chart-container { position: relative; width: 100%; max-width: 250px; margin: 1rem auto; }
+.chart-container { position: relative; width: 100%; max-width: 300px; margin: 1rem auto; }
 .stats-text p { margin: 0.5rem 0; font-weight: 500; }
 #wordcloud-container { width: 100%; height: 300px; }
 .reviews-list .review { border-top: 1px solid var(--border-color); padding: 1rem 0; }
@@ -311,4 +311,8 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
 .tooltip-container:hover .tooltip-content {
     opacity: 1;
     visibility: visible;
+}
+.radar-card .chart-container {
+    max-width: 100%;  /* Cho phép bung hết chiều rộng của thẻ cha */
+    height: 350px;    /* Tăng chiều cao lên 350px (cũ là tự động theo tỷ lệ hoặc bé hơn) */
 }

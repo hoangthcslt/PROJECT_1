@@ -91,14 +91,15 @@ def calculate_radar_score(stats, attribute_summary):
     # Lấy danh sách bình chọn từ Tiki
     votes = attribute_summary.get('votes', [])
     if not votes:
-        return scores # Trả về mặc định nếu không có dữ liệu tag
+        base_score = 70 if score_satisfaction > 80 else (40 if score_satisfaction < 40 else 50)
+        return {k: (v if k == "Hài lòng" else base_score) for k, v in scores.items()} # Trả về mặc định nếu không có dữ liệu tag
 
     # Các từ khóa để gom nhóm (Keyword Mapping)
     keywords = {
-        "Chất lượng": ["chất lượng", "bền", "tốt", "xịn", "chắc chắn", "ổn"],
+        "Chất lượng": ["chất lượng", "bền", "tốt", "xịn", "chắc chắn", "ổn","tiết kiệm", "nhanh", "mạnh", "êm"],
         "Giá cả": ["giá", "rẻ", "đắt", "hợp lý", "tiền"],
         "Mẫu mã": ["đẹp", "mẫu", "thiết kế", "màu", "nhỏ gọn", "sang"],
-        "Giao hàng": ["giao", "ship", "đóng gói", "vận chuyển", "hộp"]
+        "Giao hàng": ["giao", "ship", "đóng gói", "vận chuyển", "hộp", "nhân viên", "cẩn thận"]
     }
 
     # Biến tạm để tính tổng điểm và số lượng tag cho mỗi nhóm
