@@ -316,3 +316,290 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     max-width: 100%;  /* Cho phép bung hết chiều rộng của thẻ cha */
     height: 350px;    /* Tăng chiều cao lên 350px (cũ là tự động theo tỷ lệ hoặc bé hơn) */
 }
+/* CSS cho trang So sánh */
+.compare-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+}
+.products-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+.product-card {
+    background: var(--surface-color);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    width: 45%;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.product-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+.product-card h3 {
+    font-size: 1rem;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.vs-badge {
+    background: var(--red-color);
+    color: white;
+    font-weight: 900;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+    z-index: 10;
+}
+/* Màu sắc đại diện */
+#card-a { border-top: 4px solid #3B82F6; }
+#card-b { border-top: 4px solid #F59E0B; }
+
+.recommendation-card {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1));
+    border: 1px solid #3B82F6;
+}
+.winner-text { font-weight: bold; color: var(--green-color); }
+.loser-text { color: var(--red-color); }
+
+@media (max-width: 768px) {
+    .compare-inputs { grid-template-columns: 1fr; }
+    .products-header { flex-direction: column; gap: 1rem; }
+    .product-card { width: 100%; }
+}
+
+
+/* THÊM MỚI NGÀY 25/11 */
+/* --- CẬP NHẬT HEADER --- */
+.logo a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.logo h1 {
+    font-size: 2rem; /* To hơn */
+    margin: 0;
+    background: linear-gradient(to right, #fff, #ccc); /* Gradient chữ nhẹ cho sang */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+}
+.logo-subtitle {
+    font-size: 2rem; /* Ngang bằng với Insightify */
+    font-weight: 700;
+    color: var(--primary-color); /* Màu xanh điểm nhấn */
+    margin-left: 5px;
+    position: relative;
+    top: 2px;
+}
+
+/* --- NÚT CHUYỂN TRANG (Ở TRANG CHỦ) --- */
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.nav-btn:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* --- INPUT & BUTTON Ở TRANG SO SÁNH (ĐỒNG BỘ VỚI TRANG CHỦ) --- */
+.compare-card {
+    background: #1f2937; /* Màu nền card tối như ảnh */
+    border: 1px solid #374151;
+    color: white;
+}
+
+.compare-input-group label {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: 600;
+}
+
+.compare-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.compare-input-wrapper i {
+    position: absolute;
+    left: 12px;
+    color: #6b7280;
+    font-size: 1.2rem;
+}
+
+.compare-input {
+    width: 100%;
+    background-color: #111827; /* Nền input tối đen */
+    border: 1px solid #374151;
+    color: white;
+    padding: 12px 12px 12px 40px; /* Padding trái để né icon */
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.compare-input:focus {
+    border-color: var(--primary-color);
+}
+
+.btn-primary-large {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+}
+.btn-primary-large:hover {
+    background-color: var(--primary-color-dark);
+}
+
+/* --- KHU VỰC A VS B (PLACEHOLDER ĐẸP) --- */
+.vs-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2rem 0;
+    gap: 1rem;
+}
+
+.product-placeholder {
+    flex: 1;
+    height: 180px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.02);
+    color: var(--text-color-light);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-placeholder.blue { border-color: rgba(59, 130, 246, 0.5); }
+.product-placeholder.orange { border-color: rgba(245, 158, 11, 0.5); }
+
+.product-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+}
+
+/* Khi đã có dữ liệu (class 'filled' sẽ được thêm bằng JS) */
+.product-placeholder.filled {
+    border-style: solid;
+    background: var(--surface-color);
+}
+.product-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    display: none; /* Ẩn mặc định */
+}
+.product-placeholder.filled img { display: block; }
+.product-placeholder.filled i, 
+.product-placeholder.filled span { display: none; } /* Ẩn icon khi có ảnh */
+
+.vs-circle {
+    width: 50px;
+    height: 50px;
+    background: #EF4444;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-style: italic;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+    flex-shrink: 0;
+}
+
+/* --- HIỆU ỨNG LOADING CHO TRANG SO SÁNH --- */
+
+/* 1. Vòng xoay Loading (Spinner) */
+#loader {
+    border: 5px solid rgba(59, 130, 246, 0.2); /* Màu viền mờ */
+    border-top: 5px solid #3B82F6; /* Màu viền chính (Xanh) */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto; /* Căn giữa */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 2. Hiệu ứng làm mờ khu vực nhập liệu (khi đang xử lý) */
+.card.processing {
+    opacity: 0.6; /* Làm mờ đi */
+    pointer-events: none; /* Chặn không cho click chuột vào */
+    filter: blur(1px); /* Hiệu ứng nhòe nhẹ */
+    transition: all 0.3s ease;
+}
+
+/* 3. Nút khi đang loading */
+#compare-btn:disabled {
+    background-color: #9CA3AF; /* Màu xám */
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}

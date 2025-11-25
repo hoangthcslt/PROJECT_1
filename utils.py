@@ -87,9 +87,10 @@ def calculate_radar_score(stats, attribute_summary):
         "Mẫu mã": 50,
         "Giao hàng": 50
     }
-
+    votes = []
+    if attribute_summary and isinstance(attribute_summary, dict):
+        votes = attribute_summary.get('votes', [])
     # Lấy danh sách bình chọn từ Tiki
-    votes = attribute_summary.get('votes', [])
     if not votes:
         base_score = 70 if score_satisfaction > 80 else (40 if score_satisfaction < 40 else 50)
         return {k: (v if k == "Hài lòng" else base_score) for k, v in scores.items()} # Trả về mặc định nếu không có dữ liệu tag

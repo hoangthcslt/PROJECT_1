@@ -22,21 +22,28 @@
     <div class="container">
         <header>
             <div class="logo">
-                <i class="ph-bold ph-chart-pie-slice"></i>
+                <i class="ph-bold ph-chart-pie-slice" style="font-size: 2rem; color: #3B82F6;"></i>
                 <h1>Insightify</h1>
             </div>
+
+            <!-- Nút chuyển hướng xịn hơn -->
+            <a href="/compare-page" class="nav-btn">
+                <i class="ph ph-scales"></i>
+                Chế độ So sánh
+            </a>
+
             <button id="dark-mode-toggle" title="Chuyển đổi giao diện">
                 <i class="ph ph-sun"></i>
                 <i class="ph ph-moon"></i>
             </button>
-        </header>
+        </header>F
 
         <main>
             <!-- KHỐI 1: INPUT VÀ CHỌN CHIẾN LƯỢC -->
             <section class="input-section card">
                 <h2>Bắt đầu Phân tích</h2>
                 <p>Dán link sản phẩm từ Tiki.vn và khám phá những insight giá trị.</p>
-                
+
                 <div class="strategy-selector">
                     <div class="strategy-header">
                         <p>Chọn phương pháp phân tích:</p>
@@ -75,7 +82,7 @@
 
             <!-- KHỐI 2: KHU VỰC HIỂN THỊ KẾT QUẢ (Ban đầu ẩn) -->
             <section id="result-section" class="hidden">
-                
+
                 <!-- 2a. Hiệu ứng Loading (Skeleton) -->
                 <div id="skeleton-loader">
                     <div class="skeleton-card">
@@ -95,7 +102,7 @@
                 <!-- 2c. Nội dung Kết quả Chính (Đã đưa vào đúng chỗ) -->
                 <div id="result-content" class="hidden">
                     <div class="results-grid">
-                        
+
                         <!-- Hàng 1: Biểu đồ Tròn & Mạng nhện -->
                         <div class="card summary-card">
                             <h3><i class="ph ph-chart-pie"></i>Tổng quan Cảm xúc</h3>
@@ -110,7 +117,8 @@
                             <div class="chart-container">
                                 <canvas id="radar-chart"></canvas>
                             </div>
-                            <p style="text-align: center; font-size: 0.85rem; color: var(--text-color-light); margin-top: 10px;">
+                            <p
+                                style="text-align: center; font-size: 0.85rem; color: var(--text-color-light); margin-top: 10px;">
                                 Đánh giá 5 khía cạnh dựa trên bình chọn người dùng.
                             </p>
                         </div>
@@ -144,10 +152,10 @@
             </section>
         </main>
     </div>
-        <!-- Thư viện Chart.js & Word Cloud -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-        <!-- Link đến file JavaScript -->
-        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <!-- Thư viện Chart.js & Word Cloud -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <!-- Link đến file JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </body>
 
 </html>

@@ -40,10 +40,12 @@ def analyze_product():
     if strategy == 'overview':
         reviews = scrape_overview_reviews(url,product_id, spid)
     else: 
-        reviews = scrape_latest_reviews(product_id, spid)
+        reviews = scrape_latest_reviews(url, product_id, spid)
     
     actual_reviews = reviews.get("reviews", [])
     attribute_summary = reviews.get("attribute_summary", {})
+    product_info = reviews.get("product_info")
+    
     if not actual_reviews:
         return jsonify({"error": "Không thể cào được bình luận từ URL này. Có thể sản phẩm không có bình luận nào."}), 400
 
@@ -68,14 +70,15 @@ def analyze_product():
     # HÀM PHÂN TÍCH XU HƯỚNG 
     stats = {
         "total_reviews": total_reviews,
-            "positive": round((positive_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
-            "neutral": round((neutral_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
-            "negative": round((negative_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
+        "positive": round((positive_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
+        "neutral": round((neutral_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
+        "negative": round((negative_count / total_reviews) * 100, 2) if total_reviews > 0 else 0,
     }  
     trend_data = analyze_review_trends(actual_reviews)
     radar_data = calculate_radar_score(stats, attribute_summary)
     result = {
         "status": "success",
+        "product_info": product_info,
         "attribute_summary" : attribute_summary,
         "trend_data": trend_data,
         "radar_data" : radar_data,
@@ -111,7 +114,7 @@ def compare_products():
             if strategy == 'overview':
                 scraped_data = scrape_overview_reviews(url, product_id, spid)
             else:
-                scraped_data = scrape_latest_reviews(product_id, spid)
+                scraped_data = scrape_latest_reviews(url, product_id, spid)
             
             reviews = scraped_data.get("reviews", [])
             attribute_summary = scraped_data.get("attribute_summary", {})
@@ -143,6 +146,7 @@ def compare_products():
             # Tạm thời ta sẽ dùng ID hoặc URL làm tên, hoặc bạn có thể bật lại phần lấy tên trong crawler.
             comparison_results.append({
                 "url": url,
+                "product_info": scraped_data.get("product_info"),
                 "stats": stats,
                 "attribute_summary": attribute_summary,
                 "trend_data": trend_data,
