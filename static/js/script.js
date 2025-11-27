@@ -234,12 +234,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 scales: {
                     r: {
                         grid: {
-                            color: 'rgba(156, 163, 175, 0.2)'
+                            color: 'rgba(20, 204, 218, 0.2)'
                         },
                         // Màu các đường kẻ hướng tâm
                         angleLines: {
                             display: true,
-                            color: 'rgba(156, 163, 175, 0.2)'
+                            color: 'rgba(20, 204, 218, 0.2)'
                         },
                         // Cấu hình thang đo (0 - 100)
                         suggestedMin: 0,
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     label: 'Sao trung bình',
                     data: trendData.values,
                     borderColor: '#10B981', // Màu xanh lá
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    backgroundColor: 'rgba(53, 76, 82, 1)',
                     borderWidth: 2,
                     tension: 0.4, // Làm mượt đường kẻ
                     fill: true
@@ -311,6 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ticks: { stepSize: 1 }
                     }
                 },
+
                 plugins: {
                     legend: { display: false },
                     tooltip: {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insightify - Phân tích Đánh giá Sản phẩm</title>
+    <title>Insightify - Phân tích Đánh giá của 1 Sản phẩm</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +36,7 @@
                 <i class="ph ph-sun"></i>
                 <i class="ph ph-moon"></i>
             </button>
-        </header>F
+        </header>
 
         <main>
             <!-- KHỐI 1: INPUT VÀ CHỌN CHIẾN LƯỢC -->
@@ -105,7 +105,7 @@
 
                         <!-- Hàng 1: Biểu đồ Tròn & Mạng nhện -->
                         <div class="card summary-card">
-                            <h3><i class="ph ph-chart-pie"></i>Tổng quan Cảm xúc</h3>
+                            <h3><i class="ph ph-chart-pie"></i>Tổng quan đánh giá</h3>
                             <div class="chart-container">
                                 <canvas id="sentiment-chart"></canvas>
                             </div>
@@ -113,7 +113,7 @@
                         </div>
 
                         <div class="card radar-card">
-                            <h3><i class="ph ph-polygon"></i> Chỉ số của sản phẩm</h3>
+                            <h3><i class="ph ph-polygon"></i> Các khía cạnh của sản phẩm</h3>
                             <div class="chart-container">
                                 <canvas id="radar-chart"></canvas>
                             </div>
@@ -125,8 +125,8 @@
 
                         <!-- Hàng 2: Biểu đồ Xu hướng (Full width) -->
                         <div class="card trend-card" style="grid-column: 1 / -1;">
-                            <h3><i class="ph ph-trend-up"></i> Xu hướng Chất lượng</h3>
-                            <div class="chart-container" style="height: 300px; width: 100%;">
+                            <h3><i class="ph ph-trend-up"></i> Xu hướng đánh giá</h3>
+                            <div class="chart-container" style="height: 300px; width: 200%;">
                                 <canvas id="trend-chart"></canvas>
                             </div>
                         </div>

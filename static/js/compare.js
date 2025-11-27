@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CÁC HÀM VẼ BIỂU ĐỒ (CHART.JS) ---
 
-    function drawCompareRadar(dataA, dataB) {
+       function drawCompareRadar(dataA, dataB) {
         if (radarChart) radarChart.destroy();
         const ctx = document.getElementById('compare-radar-chart');
 
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     {
                         label: 'Sản phẩm A',
                         data: Object.values(dataA),
-                        borderColor: '#3B82F6',
+                        borderColor: '#0e56caff',
                         backgroundColor: 'rgba(59, 130, 246, 0.2)',
                     },
                     {
@@ -178,7 +178,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 ]
             },
             options: {
-                scales: { r: { suggestedMin: 0, suggestedMax: 100 } }
+                scales: { 
+                    r: { 
+                        grid: {
+                            color: 'rgba(20, 204, 218, 0.2)'
+                        },
+                        // Màu các đường kẻ hướng tâm
+                        angleLines: {
+                            display: true,
+                            color: 'rgba(20, 204, 218, 0.2)'
+                        },
+                        suggestedMin: 0, 
+                        suggestedMax: 100,
+                        ticks: {
+                            stepSize: 50, 
+                            backdropColor: 'transparent', // Xóa cái nền trắng đè lên chữ
+                            color: '#1ddc16ff', // Màu số nhạt hơn cho tinh tế
+                            font: {
+                                size: 10
+                            }
+                        }
+                    } 
+                }
             }
         });
     }
