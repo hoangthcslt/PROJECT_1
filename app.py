@@ -11,7 +11,7 @@ app.config['JSON_AS_ASCII'] = False
 # Định nghĩa API endpoint /analyze, phương thức POST
 @app.route('/')
 def home():
-    #Flask sẽ tìm file index.html để thực hiện 
+    #Flask sẽ tìm file index.html để thực hiện
     return render_template('index.html')
 
 #=== ROUTE CHO SO SÁNH ===

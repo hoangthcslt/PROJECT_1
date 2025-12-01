@@ -24,12 +24,12 @@ def _get_product_basic_info(product_url):
             if title_meta:
                 info['name'] = title_meta.get('content', '').replace(' - Tiki', '')
             
-            # 2. Lấy Ảnh sản phẩm từ thẻ meta og:image (Cách này cực bền)
+            # 2. Lấy Ảnh sản phẩm từ thẻ meta og:image
             image_meta = soup.find('meta', property='og:image')
             if image_meta:
                 info['image_url'] = image_meta.get('content', '')
             
-            # Fallback: Nếu không thấy meta, thử tìm theo class (như bạn thấy trong inspect)
+            # Fallback: Nếu không thấy meta, tìm theo class 
             if not info['image_url']:
                 # Tìm thẻ img có class bắt đầu bằng 'sc-' bên trong container ảnh
                 img_tag = soup.find('img', attrs={'srcset': True}) 

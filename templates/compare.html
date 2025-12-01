@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body class="dark-mode"> <!-- Mặc định dark mode cho ngầu -->
     <div class="container">
         <header>
@@ -26,15 +28,16 @@
         <main>
             <!-- Khu vực nhập liệu đẹp mắt -->
             <section class="card compare-card">
-                <h2 style="text-align: center; margin-bottom: 2rem;">Chọn 2 sản phẩm để đối đầu</h2>
-                
+                <h2 style="text-align: center; margin-bottom: 2rem;">Chọn 2 sản phẩm để so sánh</h2>
+
                 <div class="compare-inputs">
                     <!-- Input A -->
                     <div class="compare-input-group">
                         <label style="color: #3B82F6;">Sản phẩm A (Màu Xanh)</label>
                         <div class="compare-input-wrapper">
                             <i class="ph ph-link"></i>
-                            <input type="text" id="url-a" class="compare-input" placeholder="https://tiki.vn/san-pham-a...">
+                            <input type="text" id="url-a" class="compare-input"
+                                placeholder="https://tiki.vn/san-pham-a...">
                         </div>
                     </div>
 
@@ -43,13 +46,14 @@
                         <label style="color: #F59E0B;">Sản phẩm B (Màu Cam)</label>
                         <div class="compare-input-wrapper">
                             <i class="ph ph-link"></i>
-                            <input type="text" id="url-b" class="compare-input" placeholder="https://tiki.vn/san-pham-b...">
+                            <input type="text" id="url-b" class="compare-input"
+                                placeholder="https://tiki.vn/san-pham-b...">
                         </div>
                     </div>
                 </div>
 
                 <button id="compare-btn" class="btn-primary-large">
-                    <i class="ph ph-scales"></i> Phân tích & So sánh ngay
+                    <i class="ph ph-scales"></i> Phân tích & So sánh 
                 </button>
             </section>
 
@@ -60,7 +64,7 @@
                 <div id="error-message" class="card hidden" style="margin-top: 1rem;"></div>
 
                 <div id="result-content" class="hidden">
-                    
+
                     <!-- KHU VỰC A VS B (PLACEHOLDER ĐẸP) -->
                     <div class="vs-container">
                         <!-- Hộp sản phẩm A -->
@@ -82,17 +86,15 @@
                             <div class="product-name-overlay" id="name-b"></div>
                         </div>
                     </div>
-
-                    <!-- Các phần còn lại (Lời khuyên, Biểu đồ) giữ nguyên cấu trúc cũ -->
                     <!-- ... Copy nội dung recommendation-card và results-grid từ file cũ vào đây ... -->
                     <div class="card recommendation-card">
-                        <h3><i class="ph ph-lightbulb"></i> Góc nhìn Chuyên gia</h3>
+                        <h3><i class="ph ph-lightbulb"></i> Gợi ý của hệ thống</h3>
                         <div id="ai-recommendation-content"></div>
                     </div>
 
                     <div class="results-grid">
                         <div class="card">
-                            <h3><i class="ph ph-polygon"></i> Đối đầu Sức mạnh</h3>
+                            <h3><i class="ph ph-polygon"></i> So sánh các khía cạnh </h3>
                             <div class="chart-container"><canvas id="compare-radar-chart"></canvas></div>
                         </div>
                         <div class="card">
@@ -100,8 +102,9 @@
                             <div class="chart-container"><canvas id="compare-bar-chart"></canvas></div>
                         </div>
                         <div class="card" style="grid-column: 1 / -1;">
-                            <h3><i class="ph ph-trend-up"></i> So sánh Phong độ</h3>
-                            <div class="chart-container" style="height: 300px; width: 100%;"><canvas id="compare-trend-chart"></canvas></div>
+                            <h3><i class="ph ph-trend-up"></i> So sánh xu hướng đánh giá</h3>
+                            <div class="chart-container" style="height: 300px; width: 100%;"><canvas
+                                    id="compare-trend-chart"></canvas></div>
                         </div>
                     </div>
 
@@ -111,4 +114,5 @@
     </div>
     <script src="{{ url_for('static', filename='js/compare.js') }}"></script>
 </body>
+
 </html>

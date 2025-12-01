@@ -603,3 +603,52 @@ body.dark-mode #dark-mode-toggle .ph-sun { display: none; }
     transform: none;
     box-shadow: none;
 }
+
+/* UPDATE 29/11/2025 */
+/* CSS cho Thanh ưu tiên */
+.priority-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    border: 1px solid var(--primary-color); /* Viền xanh nổi bật */
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.1), transparent);
+}
+.priority-label {
+    font-weight: 700;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+.priority-options {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.priority-radio input {
+    display: none; /* Ẩn nút radio mặc định */
+}
+.priority-radio span {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    background: var(--bg-color);
+    color: var(--text-color-light);
+}
+.priority-radio input:checked + span {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+.priority-radio:hover span {
+    border-color: var(--primary-color);
+}

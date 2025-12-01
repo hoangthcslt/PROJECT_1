@@ -25,6 +25,9 @@ def extract_tiki_ids_from_url(url):
     except Exception as e:
         print(f"Lỗi khi trích xuất ID từ URL: {e}")
         return None, None
+    
+    
+# -- UPDATE 22/11 --
 def analyze_review_trends(reviews):
     """
     Hàm nhận vào danh sách review, nhóm theo tháng, 
@@ -97,9 +100,9 @@ def calculate_radar_score(stats, attribute_summary):
 
     # Các từ khóa để gom nhóm (Keyword Mapping)
     keywords = {
-        "Chất lượng": ["chất lượng", "bền", "tốt", "xịn", "chắc chắn", "ổn","tiết kiệm", "nhanh", "mạnh", "êm"],
+        "Chất lượng": ["chất lượng", "bền", "tốt", "xịn", "chắc chắn", "ổn","tiết kiệm", "nhanh", "mạnh", "êm", "lành tính", "chuẩn", "dễ chịu", "hiệu quả", "kích ứng", "bám", "cao", "chỉ số cao", "lan tỏa cao", "lan tỏa tốt", "lưu hương lâu", "không gây ồn", "chống nước tốt","an toàn"],
         "Giá cả": ["giá", "rẻ", "đắt", "hợp lý", "tiền"],
-        "Mẫu mã": ["đẹp", "mẫu", "thiết kế", "màu", "nhỏ gọn", "sang"],
+        "Mẫu mã": ["đẹp", "mẫu", "thiết kế", "màu", "nhỏ gọn", "sang", "chuẩn", "cầm chắc", "chắc chắn"],
         "Giao hàng": ["giao", "ship", "đóng gói", "vận chuyển", "hộp", "nhân viên", "cẩn thận"]
     }
 

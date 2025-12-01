@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputCard = document.querySelector('.compare-card'); // Lấy thẻ card chứa input
     // Chart variables
     let radarChart, barChart, trendChart;
-
     // Dark Mode (Copy từ script.js sang hoặc dùng chung 1 file util)
     // ... (Bạn có thể copy logic dark mode sang đây nếu muốn) ...
 
