@@ -92,7 +92,7 @@ Dự án được xây dựng và tối ưu hóa qua 6 giai đoạn (Sprints), t
 
 | Trang chủ (Dark Mode) | Chế độ So sánh |
 |:---:|:---:|
-| ![Home](link_anh_home.png) | ![Compare](link_anh_compare.png) |
+| ![Home](Screenshot1.png) | ![Compare](Screenshot2.png) |
 
 ## 🔮 Hướng phát triển (Future Roadmap)
 *   [ ] Mở rộng hỗ trợ cho Shopee và Lazada bằng Selenium/Puppeteer.
