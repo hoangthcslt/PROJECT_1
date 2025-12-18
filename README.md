@@ -64,7 +64,7 @@ Dự án được xây dựng và tối ưu hóa qua 6 giai đoạn (Sprints), t
 
 1.  **Clone repository:**
     ```bash
-    git clone https://github.com/your-username/insightify.git
+    git clone https://github.com/hoangthcslt/PROJECT_1.git
     cd insightify
     ```
 
@@ -100,4 +100,4 @@ Dự án được xây dựng và tối ưu hóa qua 6 giai đoạn (Sprints), t
 *   [ ] Triển khai (Deploy) hệ thống lên Docker và Cloud (AWS/Render).
 
 ---
-**Author:** [Tên của bạn]
+**Author:** [N.Đ.Hoàng]
