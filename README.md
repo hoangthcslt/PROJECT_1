@@ -7,9 +7,6 @@
 
 > **Insightify** là một hệ thống phân tích và so sánh sản phẩm thương mại điện tử (End-to-End), giúp người dùng đưa ra quyết định mua sắm thông minh dựa trên dữ liệu thực tế thay vì cảm tính.
 
-![Demo Screenshot](path/to/your/screenshot.png) 
-*(Bạn hãy thay thế đường dẫn này bằng ảnh chụp màn hình trang web của bạn)*
-
 ## 🌟 Tính Năng Nổi Bật (Key Features)
 
 *   **📊 Phân tích Đánh giá Chuyên sâu:** Tự động thu thập hàng trăm đánh giá từ Tiki, phân loại cảm xúc (Tích cực/Tiêu cực) và thống kê tỷ lệ hài lòng.
